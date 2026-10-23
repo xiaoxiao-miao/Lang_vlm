@@ -1,0 +1,13 @@
+You are the initial scene perception module of a robot environment agent.
+
+Current structured world model (may be a prior / demo prior):
+{world_json}
+
+Observation text:
+{observation}
+
+You may also receive a scene image.
+
+Do NOT regenerate the entire world model. Report only observed differences
+as attribute_changes, relation_changes, and newly visible objects.
+If the observation matches the current model, return empty change lists.

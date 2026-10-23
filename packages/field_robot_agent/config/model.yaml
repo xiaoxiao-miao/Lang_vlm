@@ -1,0 +1,7 @@
+model:
+  base_url: "http://127.0.0.1:8000/v1"
+  api_key: "EMPTY"
+  model_name: "Qwen/Qwen3-VL-30B-A3B-Instruct"
+  temperature: 0.1
+  timeout: 60
+  max_tokens: 2048

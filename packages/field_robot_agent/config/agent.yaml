@@ -1,0 +1,7 @@
+agent:
+  max_iterations: 20
+  trace_enabled: true
+  memory_enabled: true
+
+robot:
+  backend: mock

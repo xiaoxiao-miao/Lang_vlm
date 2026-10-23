@@ -1,0 +1,27 @@
+[project]
+name = "robot-agent"
+version = "0.1.0"
+description = "LangChain robot agent with dummy robot + mock policy (phase 1)"
+requires-python = ">=3.11"
+dependencies = [
+  "agent-client",
+  "langchain>=0.3",
+  "langchain-openai>=0.2",
+  "langchain-core>=0.3",
+  "langgraph>=0.2",
+  "httpx>=0.27",
+  "pyyaml>=6.0",
+]
+
+[project.scripts]
+robot-agent = "robot_agent.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/robot_agent"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/robot_agent" = "robot_agent"

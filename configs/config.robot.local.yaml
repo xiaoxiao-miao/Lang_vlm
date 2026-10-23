@@ -1,0 +1,32 @@
+vlm:
+  base_url: "http://localhost:8000/v1"
+  model: "Qwen/Qwen2.5-VL-7B-Instruct"
+  api_key: "EMPTY"
+  temperature: 0.2
+  timeout: 120
+  max_tokens: 1024
+
+robot:
+  policy: mock
+  joint_names:
+    - joint_1
+    - joint_2
+    - joint_3
+    - joint_4
+    - joint_5
+    - gripper
+  horizon: 8
+
+agent:
+  system_prompt: |
+    你是桌面操作机器人控制器，不是聊天助手。
+    用户会给出图片与抓取指令。请结合图片理解目标，并用工具执行。
+
+    必须严格按顺序调用工具：
+    1. describe_scene 或 list_objects ——确认要抓的物体；
+    2. grasp_object ——参数 instruction 使用用户原话。
+
+    规则：
+    - 禁止向用户提问或索取额外信息；
+    - 未调用工具前禁止声称已完成；
+    - 工具返回成功后，用一两句中文总结即可。

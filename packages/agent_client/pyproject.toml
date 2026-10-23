@@ -1,0 +1,28 @@
+[project]
+name = "agent-client"
+version = "0.1.0"
+description = "Local LangChain VLM agent client"
+requires-python = ">=3.11"
+dependencies = [
+  "langchain>=0.3",
+  "langchain-openai>=0.2",
+  "langchain-core>=0.3",
+  "openai>=1.40",
+  "pillow>=10",
+  "httpx>=0.27",
+  "pyyaml>=6.0",
+  "python-dotenv>=1.0",
+]
+
+[project.scripts]
+vlm-agent = "agent_client.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agent_client"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/agent_client" = "agent_client"

@@ -1,0 +1,35 @@
+services:
+  vlm-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+      args:
+        BASE_IMAGE: swr.cn-north-9.myhuaweicloud.com/sai-guon/lerobot-gpu:v6-tmux
+        UID: "1000"
+        GID: "100"
+        HF_HOME: /mnt/dev/vlm/model_cache/huggingface
+        MODEL_CACHE_DIR: /mnt/dev/vlm/model_cache
+        STORAGE_ROOT: /mnt/dev/vlm
+    image: vlm-server:v2.3
+    container_name: vlm-server
+    user: "1000:100"
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_NAME: ${MODEL_NAME:-Qwen/Qwen2.5-VL-7B-Instruct}
+      DTYPE: ${DTYPE:-bfloat16}
+      GPU_MEMORY_UTILIZATION: ${GPU_MEMORY_UTILIZATION:-0.85}
+      MAX_MODEL_LEN: ${MAX_MODEL_LEN:-8192}
+      MAX_NUM_SEQS: ${MAX_NUM_SEQS:-8}
+      HF_HOME: /mnt/dev/vlm/model_cache/huggingface
+      TRANSFORMERS_CACHE: /mnt/dev/vlm/model_cache/huggingface
+      HF_HUB_OFFLINE: ${HF_HUB_OFFLINE:-1}
+      TRANSFORMERS_OFFLINE: ${TRANSFORMERS_OFFLINE:-1}
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      VLLM_USE_FLASHINFER_SAMPLER: ${VLLM_USE_FLASHINFER_SAMPLER:-0}
+    volumes:
+      # Host HF cache (hub/...) -> container HF_HOME
+      - ${HF_CACHE:-${HOME}/.cache/huggingface}:/mnt/dev/vlm/model_cache/huggingface
+    gpus: all
+    restart: unless-stopped

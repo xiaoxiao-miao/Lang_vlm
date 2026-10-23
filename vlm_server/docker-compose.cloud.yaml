@@ -1,0 +1,44 @@
+# Huawei Cloud / ModelArts — vlm-server:v2.3 on SWR.
+#
+# SFS: import OBS with UID=1000 GID=100
+# Mount so that HF_HOME is available at /mnt/dev/vlm/model_cache/huggingface
+#
+# Usage (on cloud host):
+#   cp .env.cloud.example .env.cloud
+#   ./cloud_3_run.sh
+#
+# Or:
+#   export VLM_IMAGE=swr.cn-north-9.myhuaweicloud.com/sai-guon/vlm-server:v2.3
+#   docker compose -f docker-compose.cloud.yaml --env-file .env.cloud up -d
+
+services:
+  vlm-server:
+    image: ${VLM_IMAGE:?set VLM_IMAGE to SWR v2.3 image}
+    container_name: vlm-server
+    user: "1000:100"
+    ports:
+      - "${HOST_PORT:-8000}:8000"
+    environment:
+      MODEL_NAME: ${MODEL_NAME:-Qwen/Qwen2.5-VL-7B-Instruct}
+      DTYPE: ${DTYPE:-bfloat16}
+      GPU_MEMORY_UTILIZATION: ${GPU_MEMORY_UTILIZATION:-0.90}
+      MAX_MODEL_LEN: ${MAX_MODEL_LEN:-16384}
+      MAX_NUM_SEQS: ${MAX_NUM_SEQS:-64}
+      HF_HOME: ${HF_HOME:-/mnt/dev/vlm/model_cache/huggingface}
+      TRANSFORMERS_CACHE: ${TRANSFORMERS_CACHE:-/mnt/dev/vlm/model_cache/huggingface}
+      TORCH_HOME: ${TORCH_HOME:-/mnt/dev/vlm/model_cache/torch}
+      TRITON_CACHE_DIR: ${TRITON_CACHE_DIR:-/mnt/dev/vlm/model_cache/triton}
+      HF_HUB_OFFLINE: ${HF_HUB_OFFLINE:-1}
+      TRANSFORMERS_OFFLINE: ${TRANSFORMERS_OFFLINE:-1}
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      VLLM_USE_FLASHINFER_SAMPLER: ${VLLM_USE_FLASHINFER_SAMPLER:-0}
+    volumes:
+      - ${HF_CACHE:-/mnt/dev/vlm/model_cache/huggingface}:/mnt/dev/vlm/model_cache/huggingface
+    gpus: all
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/v1/models"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 180s

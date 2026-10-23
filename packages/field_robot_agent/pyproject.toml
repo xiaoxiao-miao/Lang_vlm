@@ -1,0 +1,34 @@
+[project]
+name = "field-robot-agent"
+version = "0.1.0"
+description = "Environment-side LangGraph agent with structured world model and mock robot"
+requires-python = ">=3.11"
+dependencies = [
+  "agent-client",
+  "langchain>=0.3",
+  "langchain-openai>=0.2",
+  "langchain-core>=0.3",
+  "langgraph>=0.2",
+  "pydantic>=2",
+  "httpx>=0.27",
+  "typer>=0.12",
+  "pyyaml>=6.0",
+  "rich>=13",
+  "python-dotenv>=1.0",
+]
+
+[project.scripts]
+field-agent = "field_robot_agent.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/field_robot_agent"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/field_robot_agent" = "field_robot_agent"
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/field_robot_agent/prompts" = "field_robot_agent/prompts"

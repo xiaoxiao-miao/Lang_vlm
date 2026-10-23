@@ -1,0 +1,82 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+*.egg
+.eggs/
+.venv/
+venv/
+vlm_server/.venv/
+dist/
+build/
+wheels/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+.ipynb_checkpoints/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+!**/.env.example
+!**/.env.cloud.example
+.env.cloud
+vlm_server/.env.cloud
+
+# IDE / OS
+.idea/
+.vscode/
+.cursor/
+*.swp
+.DS_Store
+
+# Logs / outputs / agent traces
+logs/
+*.log
+outputs/
+output/
+results/
+runs/
+wandb/
+tmp/
+
+# Huawei Cloud OBS tool state & reports
+.obsutil/
+
+# Data / checkpoints / model weights
+data/
+datasets/
+checkpoints/
+checkpoint/
+ckpt/
+models/
+model_cache/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.onnx
+*.gguf
+*.npy
+*.npz
+*.h5
+*.pkl
+*.tar
+*.tar.gz
+*.zip
+
+# Media (keep test fixtures)
+*.jpg
+*.jpeg
+*.png
+*.mp4
+*.avi
+!packages/agent_client/tests/fixtures/**
+.cache/
+huggingface/

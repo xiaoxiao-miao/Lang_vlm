@@ -1,0 +1,13 @@
+vlm:
+  # Cloud vLLM is SSH-only. Forward local :8000 to the remote serve.sh:
+  #   ssh -N -L 8000:127.0.0.1:8000 -p 32267 ma-user@<modelarts-host>
+  # Stop local vLLM first — same port as the tunnel.
+  base_url: "http://127.0.0.1:8000/v1"
+  model: "google/gemma-4-26B-A4B-it"
+  api_key: "EMPTY"
+  temperature: 0.2
+  timeout: 180
+  max_tokens: 1024
+
+agent:
+  default_prompt: scene

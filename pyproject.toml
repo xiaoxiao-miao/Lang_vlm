@@ -1,0 +1,42 @@
+[project]
+name = "physical-vlm-agent"
+version = "0.1.0"
+description = "Local LangChain agent + Docker VLM inference (RTX 5090 / Huawei Cloud A100)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "agent-client",
+  "robot-agent",
+  "field-robot-agent",
+]
+
+[tool.uv.workspace]
+members = ["packages/agent_client", "packages/robot_agent", "packages/field_robot_agent"]
+
+[tool.uv.sources]
+agent-client = { workspace = true }
+robot-agent = { workspace = true }
+field-robot-agent = { workspace = true }
+
+[dependency-groups]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+  "httpx>=0.27",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+  "packages/agent_client/tests",
+  "packages/robot_agent/tests",
+  "packages/field_robot_agent/tests",
+]
+pythonpath = [
+  "packages/agent_client/src",
+  "packages/robot_agent/src",
+  "packages/field_robot_agent/src",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
